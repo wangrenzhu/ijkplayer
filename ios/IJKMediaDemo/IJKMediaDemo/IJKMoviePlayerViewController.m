@@ -74,7 +74,7 @@
 
     IJKFFOptions *options = [IJKFFOptions optionsByDefault];
     [options setFormatOptionValue:@"ijktcphook" forKey:@"http-tcp-hook"];
-
+    [options setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
     self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.url withOptions:options];
     self.player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.player.view.frame = self.view.bounds;

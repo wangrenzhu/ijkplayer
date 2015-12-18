@@ -37,6 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.textView setText:@"http://cache.m.iqiyi.com/dc/dt/mobile/20151119/dd/aa/339966e3441b376c13bd00a17e472b0b.m3u8?qypid=420503300_22&qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&qd_tm=1450257172000&qd_ip=182.92.156.134%2C+115.29.100.77&qd_sc=aef724ea3cc8d6abbd88f001acaf7c22&mbd=f0f6c3ee5709615310c0f053dc9c65f2_5.6_1"];
 }
 
 - (void)onClickPlayButton {
