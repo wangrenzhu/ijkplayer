@@ -67,6 +67,18 @@ typedef enum IJKLogLevel {
     k_IJK_LOG_SILENT  = 8,
 } IJKLogLevel;
 
+@protocol IJKFFMoviePlayerControllerDelegate <NSObject>
+
+/**
+ *  缓冲
+ *
+ *  @param bufferPosition <#bufferPosition description#>
+ *  @param percent        <#percent description#>
+ */
+- (void)bufferUpdating:(CGFloat)bufferPosition bufferProgress:(CGFloat)percent;
+
+@end
+
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
 
 - (id)initWithContentURL:(NSURL *)aUrl
@@ -94,6 +106,7 @@ typedef enum IJKLogLevel {
 
 @property(nonatomic, readonly) CGFloat fpsInMeta;
 @property(nonatomic, readonly) CGFloat fpsAtOutput;
+@property(nonatomic, weak) id<IJKFFMoviePlayerControllerDelegate> delegate;
 @property(nonatomic) BOOL shouldShowHudView;
 
 - (void)setOptionValue:(NSString *)value
@@ -114,7 +127,7 @@ typedef enum IJKLogLevel {
 - (void)setFormatOptionIntValue:    (int64_t)value forKey:(NSString *)key;
 - (void)setCodecOptionIntValue:     (int64_t)value forKey:(NSString *)key;
 - (void)setSwsOptionIntValue:       (int64_t)value forKey:(NSString *)key;
-- (void)setPlayerOptionIntValue:    (int64_t)value forKey:(NSString *)key;
+- (void)setPlayerOptionIntValue:    (int64_t)vdalue forKey:(NSString *)key;
 
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> segmentOpenDelegate;
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> tcpOpenDelegate;

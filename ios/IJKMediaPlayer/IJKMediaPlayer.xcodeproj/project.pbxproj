@@ -677,6 +677,7 @@
 				E654EA861B6B27E600B0F2D0 /* Frameworks */,
 				E654EA871B6B27E600B0F2D0 /* Headers */,
 				E654EA881B6B27E600B0F2D0 /* Resources */,
+				0BBF563C1C27B36C006D513F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -756,6 +757,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BBF563C1C27B36C006D513F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${ACTION}\" = \"build\" ]\nthen\nINSTALL_DIR=${SRCROOT}/Products/IJKMediaFramework.framework\n\nDEVICE_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphoneos/IJKMediaFramework.framework\n\nSIMULATOR_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/IJKMediaFramework.framework\n\n\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\n\ncp -R \"${DEVICE_DIR}/\" \"${INSTALL_DIR}/\"\n#ditto \"${DEVICE_DIR}/Headers\" \"${INSTALL_DIR}/Headers\"\n\nlipo -create \"${DEVICE_DIR}/IJKMediaFramework\" \"${SIMULATOR_DIR}/IJKMediaFramework\" -output \"${INSTALL_DIR}/IJKMediaFramework\"\n\n#open \"${DEVICE_DIR}\"\n#open \"${SRCROOT}/Products\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E654EA851B6B27E600B0F2D0 /* Sources */ = {

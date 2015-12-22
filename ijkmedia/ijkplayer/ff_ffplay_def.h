@@ -708,7 +708,7 @@ inline static void ffp_reset_internal(FFPlayer *ffp)
     ffp->pictq_size                     = VIDEO_PICTURE_QUEUE_SIZE_DEFAULT; // option
     ffp->max_fps                        = 31; // option
 
-    ffp->videotoolbox                   = 0; // option
+    ffp->videotoolbox                   = 1; // option
     ffp->vtb_max_frame_width            = 0; // option
     ffp->vtb_async                      = 0; // option
     ffp->vtb_wait_async                 = 0; // option

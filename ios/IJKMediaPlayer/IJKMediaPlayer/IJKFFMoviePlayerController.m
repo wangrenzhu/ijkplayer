@@ -204,11 +204,11 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 
         ijkmp_ios_set_glview(_mediaPlayer, _glView);
         ijkmp_set_option(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "overlay-format", "fcc-i420");
-#ifdef DEBUG
-        [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
-#else
+//#ifdef DEBUG
+//        [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+//#else
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
-#endif
+//#endif
         // init audio sink
         [[IJKAudioKit sharedInstance] setupAudioSession];
 
@@ -926,14 +926,17 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
         case FFP_MSG_BUFFERING_UPDATE:
             _bufferingPosition = avmsg->arg1;
             _bufferingProgress = avmsg->arg2;
-            // NSLog(@"FFP_MSG_BUFFERING_UPDATE: %d, %%%d\n", _bufferingPosition, _bufferingProgress);
+             NSLog(@"FFP_MSG_BUFFERING_UPDATE: %ld, %%%ld\n  playableDuration:%f", (long)_bufferingPosition, (long)_bufferingProgress, self.playableDuration);
+            if ([self.delegate respondsToSelector:@selector(bufferUpdating:bufferProgress:)]) {
+                [self.delegate bufferUpdating:_bufferingPosition bufferProgress:_bufferingProgress];
+            }
             break;
         case FFP_MSG_BUFFERING_BYTES_UPDATE:
-            // NSLog(@"FFP_MSG_BUFFERING_BYTES_UPDATE: %d\n", avmsg->arg1);
+             NSLog(@"FFP_MSG_BUFFERING_BYTES_UPDATE: %d\n", avmsg->arg1);
             break;
         case FFP_MSG_BUFFERING_TIME_UPDATE:
             _bufferingTime       = avmsg->arg1;
-            // NSLog(@"FFP_MSG_BUFFERING_TIME_UPDATE: %d\n", avmsg->arg1);
+             NSLog(@"FFP_MSG_BUFFERING_TIME_UPDATE: %d\n", avmsg->arg1);
             break;
         case FFP_MSG_PLAYBACK_STATE_CHANGED:
             [[NSNotificationCenter defaultCenter]
