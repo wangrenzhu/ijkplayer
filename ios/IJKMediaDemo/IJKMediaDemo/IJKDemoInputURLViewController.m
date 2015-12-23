@@ -37,9 +37,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self.textView setText:@"http://cache.m.iqiyi.com/dc/dt/mobile/20151119/dd/aa/339966e3441b376c13bd00a17e472b0b.m3u8?qypid=420503300_22&qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&qd_tm=1450257172000&qd_ip=182.92.156.134%2C+115.29.100.77&qd_sc=aef724ea3cc8d6abbd88f001acaf7c22&mbd=f0f6c3ee5709615310c0f053dc9c65f2_5.6_1"];
+    [self.textView setText:@"http://cache.m.iqiyi.com/dc/dt/mobile/20151119/dd/aa/339966e3441b376c13bd00a17e472b0b.m3u8?qypid=420503300_22&qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&qd_tm=1450257172000&qd_ip=182.92.156.134%2C+115.29.100.77&qd_sc=aef724ea3cc8d6abbd88f001acaf7c22&mbd=f0f6c3ee5709615310c0f053dc9c65f2_5.6_1"];
 //    [self.textView setText:@"http://edge.v.iask.com/139489676.hlv?KID=sina,viask&Expires=1450540800&ssig=2A5%2BennMW3"];
-    [self.textView setText:@"http://218.77.2.31/edge.v.iask.com/139505306.mp4?KID=sina,viask&Expires=1450800000&ssig=bCRRGeczMW&wshc_tag=1&wsts_tag=5677d950&wsid_tag=ca6888c5&wsiphost=ipdbm"];
+//    [self.textView setText:@"http://data.vod.itc.cn/?prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/103/142/qjmB8t9DEZZthxjI9BKWxQ.mp4"];
+//    [self.textView setText:@"rtmp://sw.live.fangyantianxia.cn/fangyan/1450783424442861"];
 }
 
 - (void)onClickPlayButton {

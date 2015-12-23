@@ -77,6 +77,16 @@ typedef enum IJKLogLevel {
  */
 - (void)bufferUpdating:(CGFloat)bufferPosition bufferProgress:(CGFloat)percent;
 
+/**
+ *  缓冲结束
+ */
+- (void)bufferEnded;
+
+/**
+ *  缓冲开始
+ */
+- (void)bufferStarted;
+
 @end
 
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
