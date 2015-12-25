@@ -496,7 +496,7 @@ void CreateVTBSession(VideoToolBoxContext* context, int width, int height)
 
 
 
-int videotoolbox_decode_video_internal(VideoToolBoxContext* context, AVCodecContext *avctx, const AVPacket *avpkt, int* got_picture_ptr)
+int videotoolbox_decode_video_internal(VideoToolBoxContext* context, AVCodecContext *avctx, const AVPacket *pkt, int* got_picture_ptr)
 {
     FFPlayer *ffp                   = context->ffp;
     OSStatus status                 = 0;
@@ -506,15 +506,29 @@ int videotoolbox_decode_video_internal(VideoToolBoxContext* context, AVCodecCont
     AVIOContext *pb                 = NULL;
     int demux_size                  = 0;
     uint8_t *demux_buff             = NULL;
+    
+    if (!context) {
+        goto failed;
+    }
+    
+    AVPacket newpkt = *pkt;
+    int ret = av_bitstream_filter_filter(context->h264bsfc, avctx, NULL,
+                                         &newpkt.data, &newpkt.size,
+                                         pkt->data, pkt->size,
+                                         pkt->flags & AV_PKT_FLAG_KEY);
+    if (ret < 0) {
+        goto failed;
+    }
+    AVPacket *avpkt = &newpkt;
+
+    
     uint8_t *pData                  = avpkt->data;
     int iSize                       = avpkt->size;
     double pts                      = avpkt->pts;
     double dts                      = avpkt->dts;
-
-    if (!context) {
-        goto failed;
-    }
-
+   
+    
+    
     if (ffp->vtb_async) {
         decoder_flags |= kVTDecodeFrame_EnableAsynchronousDecompression;
     }
@@ -808,6 +822,10 @@ void dealloc_videotoolbox(VideoToolBoxContext* context)
         }
         SDL_DestroyCondP(&context->sample_info_cond);
         SDL_DestroyMutexP(&context->sample_info_mutex);
+        if(context->h264bsfc)
+        {
+            av_bitstream_filter_close(context->h264bsfc);
+        }
     }
 }
 
@@ -941,6 +959,7 @@ VideoToolBoxContext* init_videotoolbox(FFPlayer* ffp, AVCodecContext* ic)
     context_vtb->sample_info_cond  = SDL_CreateCond();
 
     SDL_SpeedSamplerReset(&context_vtb->sampler);
+    context_vtb->h264bsfc = av_bitstream_filter_init("h264_mp4toannexb");
     return context_vtb;
 
 failed:

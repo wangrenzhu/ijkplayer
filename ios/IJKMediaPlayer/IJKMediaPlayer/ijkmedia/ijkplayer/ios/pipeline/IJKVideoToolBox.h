@@ -84,7 +84,7 @@ typedef struct VideoToolBoxContext {
     volatile int                sample_info_index;
     volatile int                sample_info_id_generator;
     volatile int                sample_infos_in_decoding;
-
+    AVBitStreamFilterContext   *h264bsfc;
     SDL_SpeedSampler            sampler;
 } VideoToolBoxContext ;
 
