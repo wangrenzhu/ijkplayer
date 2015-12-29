@@ -144,6 +144,31 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
     ijkmp_io_stat_complete_register(cb);
 }
 
+- (id)initWithSegments:(NSArray *)segments withOptions:(IJKFFOptions *)options {
+    if (segments == nil) {
+        return nil;
+    }
+    NSString *aUrlString;
+    
+    NSString *ffconcatStr = @"fconcat version 1.0\n";
+    for (NSMutableDictionary *segment in segments) {
+        ffconcatStr = [ffconcatStr stringByAppendingFormat:@"file %@\nduration %@\n", [segment objectForKey:@"url"], [segment objectForKey:@"duration"]];
+    }
+    NSLog(@"###ffconcatStr:%@", ffconcatStr);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *ffconcatPath = [documentsDirectory stringByAppendingString:@"/segments.ffconcat"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:ffconcatPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:ffconcatPath error:nil];
+    }
+    [[NSFileManager defaultManager] createFileAtPath:ffconcatPath contents:[ffconcatStr dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+
+    aUrlString = ffconcatPath;
+    NSLog(@"aUrlString:%@", aUrlString);
+    return [self initWithContentURLString:aUrlString
+                              withOptions:options];
+}
+
 - (id)initWithContentURL:(NSURL *)aUrl
              withOptions:(IJKFFOptions *)options
 {
