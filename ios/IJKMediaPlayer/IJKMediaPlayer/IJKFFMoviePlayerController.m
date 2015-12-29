@@ -150,7 +150,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
     }
     NSString *aUrlString;
     
-    NSString *ffconcatStr = @"fconcat version 1.0\n";
+    NSString *ffconcatStr = @"ffconcat version 1.0\n";
     for (NSMutableDictionary *segment in segments) {
         ffconcatStr = [ffconcatStr stringByAppendingFormat:@"file %@\nduration %@\n", [segment objectForKey:@"url"], [segment objectForKey:@"duration"]];
     }
