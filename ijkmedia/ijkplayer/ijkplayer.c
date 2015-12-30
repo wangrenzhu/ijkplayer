@@ -705,6 +705,8 @@ int ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block)
             pthread_mutex_lock(&mp->mutex);
             mp->seek_req = 0;
             mp->seek_msec = 0;
+            mp->ffplayer->is->muted = 0;
+            mp->ffplayer->display_disable = 0;
             pthread_mutex_unlock(&mp->mutex);
             break;
 
@@ -758,7 +760,8 @@ int ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block)
             if (0 == ikjmp_chkst_seek_l(mp->mp_state)) {
                 mp->restart_from_beginning = 0;
                 if (0 == ffp_seek_to_l(mp->ffplayer, msg->arg1)) {
-                    mp->ffplayer->show_mode = SHOW_MODE_NONE;
+                    mp->ffplayer->display_disable = 1;
+                    mp->ffplayer->is->muted = 1;
                     av_log(mp->ffplayer, AV_LOG_DEBUG, "ijkmp_get_msg: FFP_REQ_SEEK: seek to %d\n", (int)msg->arg1);
                 }
             }

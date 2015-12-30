@@ -558,7 +558,7 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
     [[NSNotificationCenter defaultCenter]
      postNotificationName:IJKMPMoviePlayerPlaybackStateDidChangeNotification
      object:self];
-
+    
     ijkmp_seek_to(_mediaPlayer, aCurrentPlaybackTime * 1000);
 }
 
