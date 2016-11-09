@@ -21,6 +21,7 @@
  */
 
 #import "IJKMediaPlayback.h"
+#import "IJKFFMonitor.h"
 #import "IJKFFOptions.h"
 
 // media meta
@@ -113,9 +114,7 @@ typedef enum IJKLogLevel {
 + (void)setLogLevel:(IJKLogLevel)logLevel;
 + (BOOL)checkIfFFmpegVersionMatch:(BOOL)showAlert;
 + (BOOL)checkIfPlayerVersionMatch:(BOOL)showAlert
-                            major:(unsigned int)major
-                            minor:(unsigned int)minor
-                            micro:(unsigned int)micro;
+                            version:(NSString *)version;
 
 @property(nonatomic, readonly) CGFloat fpsInMeta;
 @property(nonatomic, readonly) CGFloat fpsAtOutput;
@@ -146,6 +145,13 @@ typedef enum IJKLogLevel {
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> tcpOpenDelegate;
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> httpOpenDelegate;
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> liveOpenDelegate;
+
+@property (nonatomic, retain) id<IJKMediaNativeInvokeDelegate> nativeInvokeDelegate;
+
+- (void)didShutdown;
+
+#pragma mark KVO properties
+@property (nonatomic, readonly) IJKFFMonitor *monitor;
 
 @end
 

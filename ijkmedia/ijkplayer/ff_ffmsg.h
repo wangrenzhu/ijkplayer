@@ -38,7 +38,7 @@
 #define FFP_MSG_BUFFERING_UPDATE            502     /* arg1 = buffering head position in time, arg2 = minimum percent in time or bytes */
 #define FFP_MSG_BUFFERING_BYTES_UPDATE      503     /* arg1 = cached data in bytes,            arg2 = high water mark */
 #define FFP_MSG_BUFFERING_TIME_UPDATE       504     /* arg1 = cached duration in milliseconds, arg2 = high water mark */
-#define FFP_MSG_SEEK_COMPLETE               600
+#define FFP_MSG_SEEK_COMPLETE               600     /* arg1 = seek position,                   arg2 = error */
 #define FFP_MSG_PLAYBACK_STATE_CHANGED      700
 
 #define FFP_MSG_VIDEO_DECODER_OPEN          10001
@@ -68,4 +68,13 @@
 #define FFP_PROP_INT64_VIDEO_CACHED_PACKETS             20009
 #define FFP_PROP_INT64_AUDIO_CACHED_PACKETS             20010
 
+#define FFP_PROP_INT64_BIT_RATE                         20100
+
+#define FFP_PROP_INT64_TCP_SPEED                        20200
+
+#define FFP_PROP_INT64_ASYNC_STATISTIC_BUF_BACKWARDS    20201
+#define FFP_PROP_INT64_ASYNC_STATISTIC_BUF_FORWARDS     20202
+#define FFP_PROP_INT64_ASYNC_STATISTIC_BUF_CAPACITY     20203
+
+#define FFP_PROP_INT64_LATEST_SEEK_LOAD_DURATION               20300
 #endif

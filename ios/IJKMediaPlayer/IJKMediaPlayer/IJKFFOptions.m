@@ -30,6 +30,7 @@
     NSMutableDictionary *_formatOptions;
     NSMutableDictionary *_codecOptions;
     NSMutableDictionary *_swsOptions;
+    NSMutableDictionary *_swrOptions;
 }
 
 + (IJKFFOptions *)optionsByDefault
@@ -39,18 +40,14 @@
     [options setPlayerOptionIntValue:30     forKey:@"max-fps"];
     [options setPlayerOptionIntValue:0      forKey:@"framedrop"];
     [options setPlayerOptionIntValue:3      forKey:@"video-pictq-size"];
-    [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];
+    [options setPlayerOptionIntValue:0      forKey:@"videotoolbox"];
     [options setPlayerOptionIntValue:960    forKey:@"videotoolbox-max-frame-width"];
 
     [options setFormatOptionIntValue:0                  forKey:@"auto_convert"];
     [options setFormatOptionIntValue:1                  forKey:@"reconnect"];
-    [options setFormatOptionIntValue:10 * 1000 * 1000   forKey:@"timeout"];
+    [options setFormatOptionIntValue:30 * 1000 * 1000   forKey:@"timeout"];
     [options setFormatOptionValue:@"ijkplayer"          forKey:@"user-agent"];
 
-    [options setCodecOptionIntValue:IJK_AVDISCARD_ALL       forKey:@"skip_loop_filter"];
-    [options setCodecOptionIntValue:IJK_AVDISCARD_NONREF    forKey:@"skip_frame"];
-
-    options.useRenderQueue = YES;
     options.showHudView   = NO;
 
     return options;
@@ -64,12 +61,14 @@
         _formatOptions      = [[NSMutableDictionary alloc] init];
         _codecOptions       = [[NSMutableDictionary alloc] init];
         _swsOptions         = [[NSMutableDictionary alloc] init];
+        _swrOptions         = [[NSMutableDictionary alloc] init];
 
         _optionCategories   = [[NSMutableDictionary alloc] init];
         _optionCategories[@(IJKMP_OPT_CATEGORY_PLAYER)] = _playerOptions;
         _optionCategories[@(IJKMP_OPT_CATEGORY_FORMAT)] = _formatOptions;
         _optionCategories[@(IJKMP_OPT_CATEGORY_CODEC)]  = _codecOptions;
         _optionCategories[@(IJKMP_OPT_CATEGORY_SWS)]    = _swsOptions;
+        _optionCategories[@(IJKMP_OPT_CATEGORY_SWR)]    = _swrOptions;
     }
     return self;
 }

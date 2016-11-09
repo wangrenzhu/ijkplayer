@@ -25,9 +25,6 @@
 #include "libavutil/log.h"
 #include "libavutil/opt.h"
 
-#include "ijkplayer/ijkavutil/opt.h"
-#include "ijkavformat.h"
-
 typedef struct Context {
     AVClass        *class;
     URLContext     *inner;
@@ -43,7 +40,14 @@ static int ijklongurl_open(URLContext *h, const char *arg, int flags, AVDictiona
     if (!c->url || !*c->url)
         return AVERROR_EXTERNAL;
 
-    return ffurl_open(&c->inner, c->url, flags, &h->interrupt_callback, options);
+    return ffurl_open_whitelist(&c->inner,
+                                c->url,
+                                flags,
+                                &h->interrupt_callback,
+                                options,
+                                h->protocol_whitelist,
+                                h->protocol_blacklist,
+                                h);
 }
 
 static int ijklongurl_close(URLContext *h)
@@ -72,7 +76,7 @@ static int64_t ijklongurl_seek(URLContext *h, int64_t pos, int whence)
 
 static const AVOption options[] = {
     { "ijklongurl-url",         "real url to access",
-        OFFSET(url),            IJKAV_OPTION_STR(NULL) },
+        OFFSET(url),            AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, D },
     { NULL }
 };
 
@@ -86,7 +90,7 @@ static const AVClass ijklongurl_context_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-URLProtocol ijkff_ijklongurl_protocol = {
+URLProtocol ijkimp_ff_ijklongurl_protocol = {
     .name                = "ijklongurl",
     .url_open2           = ijklongurl_open,
     .url_read            = ijklongurl_read,

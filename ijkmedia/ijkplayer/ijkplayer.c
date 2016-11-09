@@ -22,7 +22,7 @@
 
 #include "ijkplayer.h"
 #include "ijkplayer_internal.h"
-#include "version.h"
+#include "ijkversion.h"
 
 #define MP_RET_IF_FAILED(ret) \
     do { \
@@ -90,14 +90,9 @@ void ijkmp_global_set_inject_callback(ijk_inject_callback cb)
     ffp_global_set_inject_callback(cb);
 }
 
-const char *ijkmp_version_ident()
+const char *ijkmp_version()
 {
-    return LIBIJKPLAYER_IDENT;
-}
-
-unsigned int ijkmp_version_int()
-{
-    return LIBIJKPLAYER_VERSION_INT;
+    return IJKPLAYER_VERSION;
 }
 
 void ijkmp_io_stat_register(void (*cb)(const char *url, int type, int bytes))
@@ -140,20 +135,14 @@ IjkMediaPlayer *ijkmp_create(int (*msg_loop)(void*))
     return NULL;
 }
 
-void ijkmp_set_inject_opaque(IjkMediaPlayer *mp, void *opaque)
+void *ijkmp_set_inject_opaque(IjkMediaPlayer *mp, void *opaque)
 {
     assert(mp);
 
     MPTRACE("%s(%p)\n", __func__, opaque);
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
-#endif
-    ijkmp_set_option_int(mp, IJKMP_OPT_CATEGORY_FORMAT, "ijkinject-opaque", (int64_t)opaque);
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+    void *prev_weak_thiz = ffp_set_inject_opaque(mp->ffplayer, opaque);
     MPTRACE("%s()=void\n", __func__);
+    return prev_weak_thiz;
 }
 
 void ijkmp_set_option(IjkMediaPlayer *mp, int opt_category, const char *name, const char *value)
