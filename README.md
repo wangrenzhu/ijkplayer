@@ -1,12 +1,14 @@
 # Wangrenzhu-ijkPlayerExtension
 
-我们打算做的 基于ijkPlayer稳定版扩展以下功能
+我们打算做的： 基于ijkPlayer 点播视频播放为主扩展以下功能 
 
 - [x] 支持FFConcat
 
-- [ ] 支持插件化扩展播放器组件
+- [ ] 支持插件化扩展播放器组件 （提供 旋屏幕插件、下载插件、亮度控制插件等等）
 
 - [ ] 播放事件拦截器
+
+- [ ] 画中画
 
 - [ ] RxSwift API
 
