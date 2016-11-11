@@ -747,7 +747,6 @@
 				E654EA861B6B27E600B0F2D0 /* Frameworks */,
 				E654EA871B6B27E600B0F2D0 /* Headers */,
 				E654EA881B6B27E600B0F2D0 /* Resources */,
-				0BBF563C1C27B36C006D513F /* ShellScript */,
 			);
 			buildRules = (
 			);

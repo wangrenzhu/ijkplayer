@@ -1193,7 +1193,7 @@ static int queue_picture(FFPlayer *ffp, AVFrame *src_frame, double pts, double d
         return -1;
 
     vp->sar = src_frame->sample_aspect_ratio;
-#if FFP_MERGE
+#ifdef FFP_MERGE
     vp->uploaded = 0;
 #endif
 
@@ -1249,7 +1249,9 @@ static int queue_picture(FFPlayer *ffp, AVFrame *src_frame, double pts, double d
         vp->bmp->sar_num = vp->sar.num;
         vp->bmp->sar_den = vp->sar.den;
 
+#ifdef FFP_MERGE
         av_frame_move_ref(vp->frame, src_frame);
+#endif
         frame_queue_push(&is->pictq);
         if (!is->viddec.first_frame_decoded) {
             ALOGD("Video: first frame decoded\n");

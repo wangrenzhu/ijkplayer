@@ -192,7 +192,7 @@ typedef struct Frame {
     double pts;           /* presentation timestamp for the frame */
     double duration;      /* estimated duration of the frame */
     int64_t pos;          /* byte position of the frame in the input file */
-#ifdef FF_MERGE
+#ifdef FFP_MERGE
     SDL_Texture *bmp;
 #else
     SDL_VoutOverlay *bmp;
@@ -202,7 +202,7 @@ typedef struct Frame {
     int height;
     int format;
     AVRational sar;
-#ifdef FF_MERGE
+#ifdef FFP_MERGE
     int uploaded;
 #endif
 } Frame;
@@ -744,7 +744,7 @@ inline static void ffp_reset_internal(FFPlayer *ffp)
     ffp->pictq_size                     = VIDEO_PICTURE_QUEUE_SIZE_DEFAULT; // option
     ffp->max_fps                        = 31; // option
 
-    ffp->videotoolbox                   = 1; // option
+    ffp->videotoolbox                   = 0; // option
     ffp->vtb_max_frame_width            = 0; // option
     ffp->vtb_async                      = 0; // option
     ffp->vtb_handle_resolution_change   = 0; // option

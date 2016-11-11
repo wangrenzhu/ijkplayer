@@ -68,38 +68,25 @@ typedef enum IJKLogLevel {
     k_IJK_LOG_SILENT  = 8,
 } IJKLogLevel;
 
-@protocol IJKFFMoviePlayerControllerDelegate <NSObject>
+@interface IJKFFMoviePlayerSegmentItem : NSObject
 
-/**
- *  缓冲
- *
- *  @param bufferPosition <#bufferPosition description#>
- *  @param percent        <#percent description#>
- */
-- (void)bufferUpdating:(CGFloat)bufferPosition bufferProgress:(CGFloat)percent;
+@property (nonatomic, strong, readonly) NSString *urlString;
+@property (nonatomic, strong, readonly) NSString *duration;
 
-/**
- *  缓冲结束
- */
-- (void)bufferEnded;
-
-/**
- *  缓冲开始
- */
-- (void)bufferStarted;
+- (instancetype)initWithURLString:(NSString *)urlString duration:(NSString *)duration;
 
 @end
 
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
 
-- (id)initWithContentURL:(NSURL *)aUrl
+- (instancetype)initWithSegments:(NSArray<IJKFFMoviePlayerSegmentItem *> *)segments
+                    withOpetions:(IJKFFOptions *)options;
+
+- (instancetype)initWithContentURL:(NSURL *)aUrl
              withOptions:(IJKFFOptions *)options;
 
-- (id)initWithContentURLString:(NSString *)aUrlString
+- (instancetype)initWithContentURLString:(NSString *)aUrlString
                    withOptions:(IJKFFOptions *)options;
-
-- (id)initWithSegments:(NSArray *)segments
-           withOptions:(IJKFFOptions *)options;
 
 - (void)prepareToPlay;
 - (void)play;
@@ -118,7 +105,6 @@ typedef enum IJKLogLevel {
 
 @property(nonatomic, readonly) CGFloat fpsInMeta;
 @property(nonatomic, readonly) CGFloat fpsAtOutput;
-@property(nonatomic, weak) id<IJKFFMoviePlayerControllerDelegate> delegate;
 @property(nonatomic) BOOL shouldShowHudView;
 
 - (void)setOptionValue:(NSString *)value
@@ -139,7 +125,7 @@ typedef enum IJKLogLevel {
 - (void)setFormatOptionIntValue:    (int64_t)value forKey:(NSString *)key;
 - (void)setCodecOptionIntValue:     (int64_t)value forKey:(NSString *)key;
 - (void)setSwsOptionIntValue:       (int64_t)value forKey:(NSString *)key;
-- (void)setPlayerOptionIntValue:    (int64_t)vdalue forKey:(NSString *)key;
+- (void)setPlayerOptionIntValue:    (int64_t)value forKey:(NSString *)key;
 
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> segmentOpenDelegate;
 @property (nonatomic, retain) id<IJKMediaUrlOpenDelegate> tcpOpenDelegate;

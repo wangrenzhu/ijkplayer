@@ -34,6 +34,20 @@
 
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.2--ijk0.7.2-20161107--001";
 
+@implementation IJKFFMoviePlayerSegmentItem
+
+- (instancetype)initWithURLString:(NSString *)urlString duration:(NSString *)duration
+{
+    self = [super init];
+    if (self) {
+        _urlString = urlString;
+        _duration = duration;
+    }
+    return self;
+}
+
+@end
+
 // It means you didn't call shutdown if you found this object leaked.
 @interface IJKWeakHolder : NSObject
 @property (nonatomic, weak) id object;
@@ -144,6 +158,29 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
                                             int64_t elpased_time, int64_t total_duration))
 {
     ijkmp_io_stat_complete_register(cb);
+}
+
+- (instancetype)initWithSegments:(NSArray<IJKFFMoviePlayerSegmentItem *> *)segments withOpetions:(IJKFFOptions *)options {
+    if (segments == nil) {
+        return nil;
+    }
+    NSString *aUrlString;
+    
+    NSString *ffconcatStr = @"ffconcat version 1.0\n";
+    for (IJKFFMoviePlayerSegmentItem *segment in segments) {
+        ffconcatStr = [ffconcatStr stringByAppendingFormat:@"file %@\nduration %@\n", segment.urlString, segment.duration];
+    }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *ffconcatPath = [documentsDirectory stringByAppendingString:@"/segments.ffconcat"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:ffconcatPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:ffconcatPath error:nil];
+    }
+    [[NSFileManager defaultManager] createFileAtPath:ffconcatPath contents:[ffconcatStr dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+    
+    aUrlString = ffconcatPath;
+    return [self initWithContentURLString:aUrlString
+                              withOptions:options];
 }
 
 - (id)initWithContentURL:(NSURL *)aUrl
